@@ -16,14 +16,14 @@ func Root(csr *x509.CertificateRequest, key crypto.Signer, start, finish time.Ti
 		return
 	}
 	root := &x509.Certificate{
-		Version:      3,
-		Subject:      csr.Subject,
-		PublicKey:    key.Public(),
-		SerialNumber: big.NewInt(1),
-		Issuer:       csr.Subject,
-		NotBefore:    start,
-		NotAfter:     finish,
-		// KeyUsage: csr.Extensions[0]., // TODO
+		Version:         3,
+		Subject:         csr.Subject,
+		PublicKey:       key.Public(),
+		SerialNumber:    big.NewInt(1),
+		Issuer:          csr.Subject,
+		NotBefore:       start,
+		NotAfter:        finish,
+		KeyUsage:        x509.KeyUsageCRLSign | x509.KeyUsageCertSign | x509.KeyUsageContentCommitment | x509.KeyUsageDataEncipherment | x509.KeyUsageDecipherOnly | x509.KeyUsageDigitalSignature | x509.KeyUsageEncipherOnly | x509.KeyUsageKeyAgreement | x509.KeyUsageKeyAgreement | x509.KeyUsageKeyEncipherment,
 		Extensions:      csr.Extensions,
 		ExtraExtensions: csr.ExtraExtensions,
 		// ExtKeyUsage: , // TODO

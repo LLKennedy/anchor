@@ -13,6 +13,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/LLKennedy/anchor/encode"
 	"github.com/LLKennedy/anchor/generate"
 	"github.com/spf13/cobra"
 )
@@ -33,6 +34,9 @@ func main() {
 			cert, err := generate.Root(&x509.CertificateRequest{
 				Subject: pkix.Name{
 					CommonName: "TestRoot",
+				},
+				Extensions: []pkix.Extension{
+					encode.KeyUsage(x509.KeyUsageCRLSign | x509.KeyUsageCertSign | x509.KeyUsageContentCommitment | x509.KeyUsageDataEncipherment | x509.KeyUsageDecipherOnly | x509.KeyUsageDigitalSignature | x509.KeyUsageEncipherOnly | x509.KeyUsageKeyAgreement | x509.KeyUsageKeyAgreement | x509.KeyUsageKeyEncipherment),
 				},
 			}, key, time.Now(), time.Now().Add(24*time.Hour))
 			if err != nil {
